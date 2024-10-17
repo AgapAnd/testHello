@@ -1,35 +1,32 @@
 @echo off
-echo "Hello World" application with Maven and Docker
+echo "Hello World" application
 
 
-echo Step 1. Checking files...
+echo Step 1. Checking file...
 
 cd ../application
 
-if not exist src/main/java/ru/agapov/app/Hello.java (
+if not exist src/ru/agapov/app/Hello.java (
 	echo File "Hello.java" not found
 	goto end
 )
 
-if not exist pom.xml (
-	echo File "pom.xml" not found
-	goto end
-)
-
-if not exist Dockerfile (
-	echo File "Dockerfile" not found
-	goto end
+if exist bin/ru/agapov/app/Hello.class (
+	goto running
 )
 
 
-echo Step 2. Making a docker image...
+echo Step 2. Compiling...
 
-docker build -t learning-docker-project .
+javac -d bin src/ru/agapov/app/Hello.java
 
 
-echo Step 3. Running dicker image...
 
-docker run learning-docker-project
+:running
+echo Step 3. Programm is running...
+
+java -classpath ./bin ru.agapov.app.Hello
+
 
 
 : end
